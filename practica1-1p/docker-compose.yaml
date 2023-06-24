@@ -1,0 +1,23 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=postgrespw
+    ports:
+      - 5432:5432
+    restart: always
+  backend:
+    build: ./backend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./backend:/index
+    depends_on:
+      - postgres
+  frontend:
+    build: ./frontend
+    ports:
+      - '3001:5173'
+    depends_on:
+      - backend
